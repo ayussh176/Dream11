@@ -250,3 +250,40 @@ docker-compose ps
 2. **Deterministic Interception:** Interception calculations use constant initial ball velocity and uniform deceleration. Human factors such as diving range, sliding stops, and relay throws are simplified to Euclidean sprint reachability.
 3. **Epistemological Scope:** AI explanations represent plausible cricket tactical orthodoxy derived from match telemetry and captaincy conventions. They do not claim telepathic knowledge of unstated captain or bowler intentions.
 4. **Curated Demo Dataset:** Demonstrations focus on the curated Over 19 death defense match. Connecting live commercial match feeds requires integration with an external ball-by-ball provider.
+
+
+---
+
+## 🚀 Deployment Guide: Netlify & Cloud Architecture
+
+DugoutAI is structured for seamless cloud deployment:
+- **Frontend Client**: Hosted on **Netlify** (built directly from GitHub with client-side SPA routing).
+- **Backend API Engine**: Hosted on **Render**, **Railway**, or any Docker/container platform.
+- **Database**: Hosted on **Neon Serverless PostgreSQL** (accessed securely via SSL).
+
+---
+
+### Step 1: Deploy Backend API (Render / Railway)
+1. In [Render](https://render.com) or [Railway](https://railway.app), click **New** → **Blueprint** or **Web Service**.
+2. Select your GitHub repository: `https://github.com/ayussh176/Dream11.git`.
+3. If using Render, it automatically detects [`render.yaml`](file:///d:/Dream11/render.yaml).
+4. Configure the following environment variables:
+   - `DATABASE_URL`: `postgresql://neondb_owner:...@ep-fragrant-lake-behvhye3-pooler.c-9.us-east-2.aws.neon.tech/neondb?sslmode=require`
+   - `GEMINI_API_KEY`: Your Google Gemini API Key
+   - `RAPIDAPI_KEY`: Your RapidAPI Key
+   - `RAPIDAPI_HOST`: `cricbuzz-cricket.p.rapidapi.com`
+5. Click **Deploy**. Note your public API URL (e.g. `https://dugoutai-api.onrender.com`).
+
+---
+
+### Step 2: Deploy Frontend on Netlify (from GitHub)
+1. Log in to [Netlify](https://app.netlify.com/) and click **Add new site** → **Import an existing project**.
+2. Authorize GitHub and select the **`Dream11`** repository (`ayussh176/Dream11`).
+3. Netlify automatically reads [`netlify.toml`](file:///d:/Dream11/netlify.toml):
+   - **Base directory:** `frontend`
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+4. Under **Site configuration** → **Environment variables**, add:
+   - `VITE_API_URL`: Your backend URL from Step 1 (e.g. `https://dugoutai-api.onrender.com/api`)
+5. Click **Deploy site**.
+6. Netlify builds the app, deploys it to a global CDN, and handles all client-side routing via [`public/_redirects`](file:///d:/Dream11/frontend/public/_redirects).

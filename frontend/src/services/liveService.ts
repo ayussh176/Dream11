@@ -82,10 +82,23 @@ export const liveService = {
     onStateUpdate: (state: LiveMatchState) => void,
     onError?: (err: any) => void
   ): WebSocket {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.hostname === 'localhost' ? '127.0.0.1:8000' : window.location.host;
-    const wsUrl = `${protocol}//${host}/api/live/ws/${matchId}`;
-    
+    let wsUrl = '';
+    const customApi = import.meta.env.VITE_API_URL;
+    if (customApi && customApi.startsWith('http')) {
+      try {
+        const parsed = new URL(customApi);
+        const wsProtocol = parsed.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${wsProtocol}//${parsed.host}/api/live/ws/${matchId}`;
+      } catch {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${protocol}//${window.location.host}/api/live/ws/${matchId}`;
+      }
+    } else {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.hostname === 'localhost' ? '127.0.0.1:8000' : window.location.host;
+      wsUrl = `${protocol}//${host}/api/live/ws/${matchId}`;
+    }
+
     const ws = new WebSocket(wsUrl);
 
     ws.onmessage = (event) => {
@@ -100,11 +113,10 @@ export const liveService = {
     };
 
     ws.onerror = (err) => {
-      console.warn('Live WebSocket connection error', err);
+      console.warn('Live WebSocket note (HTTP fallback active):', err);
       if (onError) onError(err);
     };
 
     return ws;
   },
 };
-

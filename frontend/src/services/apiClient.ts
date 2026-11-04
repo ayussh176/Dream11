@@ -1,10 +1,17 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+let rawBaseUrl = (import.meta.env.VITE_API_URL || '/api').trim();
+if (rawBaseUrl.endsWith('/')) {
+  rawBaseUrl = rawBaseUrl.slice(0, -1);
+}
+// If user supplied https://backend-domain.com without /api, append /api
+if (rawBaseUrl.startsWith('http') && !rawBaseUrl.endsWith('/api')) {
+  rawBaseUrl = `${rawBaseUrl}/api`;
+}
 
 export const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 15000,
+  baseURL: rawBaseUrl,
+  timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -27,4 +34,3 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
-

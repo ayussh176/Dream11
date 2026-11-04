@@ -37,12 +37,12 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS Middleware
-origins = list(set([settings.FRONTEND_ORIGIN] + settings.ALLOWED_ORIGINS))
+# CORS Middleware - permits all Netlify domains (*.netlify.app), localhost, and custom domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins if origins else ["*"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_origin_regex=r"https://.*\.netlify\.app.*",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -50,16 +50,16 @@ app.add_middleware(
 # Centralized Exception Handlers
 register_exception_handlers(app)
 
-# Include API Router under /api prefix
+# Include API Router
 app.include_router(api_router, prefix=settings.API_PREFIX)
 
 
-@app.get("/", tags=["Root"])
+@app.get("/")
 def root():
     return {
-        "name": settings.PROJECT_NAME,
+        "project": settings.PROJECT_NAME,
         "tagline": settings.TAGLINE,
         "version": settings.VERSION,
-        "health_check": f"{settings.API_PREFIX}/health",
-        "documentation": "/docs",
+        "docs": "/docs",
+        "health": f"{settings.API_PREFIX}/health",
     }

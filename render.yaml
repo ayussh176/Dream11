@@ -1,0 +1,23 @@
+# Render Blueprint for DugoutAI Backend API
+# Repository: https://github.com/ayussh176/Dream11.git
+
+services:
+  - type: web
+    name: dugoutai-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: RAPIDAPI_KEY
+        sync: false
+      - key: RAPIDAPI_HOST
+        value: cricbuzz-cricket.p.rapidapi.com
+      - key: FRONTEND_ORIGIN
+        value: https://*.netlify.app
