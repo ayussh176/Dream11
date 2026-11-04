@@ -1,0 +1,12 @@
+# DugoutAI: Tactical Companion for Cricket Fans
+
+### 1. What Fan Problem Are You Solving?
+Cricket fans and fantasy players experience matches passively through tight broadcast camera angles that rarely display the entire field. Fans cannot see the tactical chess match unfolding—such as planned boundary traps, unprotected scoring corridors, and strategic fielder shifts—leaving them disconnected from why dismissals and key phases actually happen.
+
+### 2. How Does Your Solution Help?
+DugoutAI elevates fans from spectators into informed tacticians. Powered by real-time ball-by-ball feeds, it maps 9 fielders across 8 pitch sectors onto an interactive 2D ground. Fans get instant probabilistic analytics on Expected Runs (xR), boundary vulnerabilities, and wicket threat. Through the "Shadow Captain" sandbox, fans can drag fielders, plug defensive holes, and simulate counter-factual match outcomes.
+
+### 3. Which AI Tools Did You Use?
+- Google Gemini 2.5 (Flash & Pro): Powers the AI Tactical Explainer, generating context-rich captaincy critiques and conversational field reasoning with strict epistemic guardrails.
+- Deterministic Geometry Engine (Shapely & NumPy): Calculates real-time spatial Voronoi field coverage, boundary distances, and gap scoring vectors.
+- Cricbuzz Live Feed API: Delivers live match scores, ball-by-ball commentary, and telemetry.
