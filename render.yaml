@@ -21,3 +21,4 @@ services:
         value: cricbuzz-cricket.p.rapidapi.com
       - key: FRONTEND_ORIGIN
         value: https://*.netlify.app
+
