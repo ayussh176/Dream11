@@ -9,6 +9,7 @@
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
+  VITE_API_URL = "https://dream11-rlbe.onrender.com"
 
 # SPA Routing: Redirect all page requests to index.html for React Router (/live, /radar, /explainer, /simulator)
 [[redirects]]
